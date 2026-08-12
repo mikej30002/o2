@@ -2,7 +2,7 @@
 // CONFIGURATION - Gets from config.js
 // =====================================================
 const DEFAULT_WISP = window.SITE_CONFIG?.defaultWisp ?? "wss://anura.pro";
-const WISP_SERVERS = [{ name: "Anura.Pro", url: "wss://anura.pro" }, { name: "B1", url: "wss://ixlmathlogin.ixl.best/wisp/" }, { name: "B2", url: "wss://gointospace.app/wisp/" }, { name: "B3", url: "wss://dash.goip.de/wisp/" }, { name: "B4", url: "wss://wisp.terbiumon.top/wisp/" }, { name: "B5", url: "wss://zyrongardeningalore.speedinsure.hk/wisp/" }, { name: "B6", url: "wss://ss.maxmir-energy.ru/wisp/" }, { name: "B7", url: "wss://math.babypos.hk/w/" }, { name: "Mercury", url: "wss://wisp.mercurywork.shop/" }, { name: "Lat", url: "wss://wisp.classroom.lat/" }];
+const WISP_SERVERS = [{ name: "Anura.Pro", url: "wss://python.fhub.us" }, { name: "B1", url: "wss://ixlmathlogin.ixl.best/wisp/" }, { name: "B2", url: "wss://gointospace.app/wisp/" }, { name: "B3", url: "wss://dash.goip.de/wisp/" }, { name: "B4", url: "wss://wisp.terbiumon.top/wisp/" }, { name: "B5", url: "wss://zyrongardeningalore.speedinsure.hk/wisp/" }, { name: "B6", url: "wss://ss.maxmir-energy.ru/wisp/" }, { name: "B7", url: "wss://math.babypos.hk/w/" }, { name: "Mercury", url: "wss://wisp.mercurywork.shop/" }, { name: "Lat", url: "wss://wisp.classroom.lat/" }];
 
 // Initialize default proxy server if not set
 if (!localStorage.getItem("proxServer")) {
