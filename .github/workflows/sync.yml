@@ -1,0 +1,73 @@
+name: Sync Files to Destination Repo
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync-files:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Checkout Source Repository
+      - name: Checkout Source Repo
+        uses: actions/checkout@v4
+
+      # Step 2: Setup SSH Key & Clone Destination Repo
+      - name: Clone Destination Repo via SSH
+        env:
+          SSH_KEY: ${{ secrets.DEST_DEPLOY_KEY }}
+        run: |
+          eval $(ssh-agent -s)
+          echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+          
+          mkdir -p ~/.ssh
+          ssh-keyscan -t ed25519,rsa github.com >> ~/.ssh/known_hosts
+
+          git clone git@github.com:mikej30002/o2.git dest_repo
+
+      # Step 3: Sync File Content (Preserving static.yml & excluding README.md)
+      - name: Sync File Content
+        run: |
+          # 1. Back up static.yml if it exists in the destination repo
+          if [ -f "dest_repo/.github/workflows/static.yml" ]; then
+            mkdir -p /tmp/dest_backup
+            cp dest_repo/.github/workflows/static.yml /tmp/dest_backup/static.yml
+          fi
+
+          # 2. Wipe everything in dest_repo EXCEPT .git
+          find dest_repo -maxdepth 1 ! -name 'dest_repo' ! -name '.git' -exec rm -rf {} +
+
+          # 3. Copy everything from source EXCEPT .git and README.md
+          rsync -av --exclude='.git' --exclude='[R|r][E|e][A|a][D|d][M|m][E|e].[M|m][D|d]' ./ dest_repo/
+
+          # 4. Restore static.yml into destination
+          if [ -f "/tmp/dest_backup/static.yml" ]; then
+            mkdir -p dest_repo/.github/workflows
+            cp /tmp/dest_backup/static.yml dest_repo/.github/workflows/static.yml
+          fi
+
+      # Step 4: Commit and Push Changes
+      - name: Commit and Push Changes
+        env:
+          SSH_KEY: ${{ secrets.DEST_DEPLOY_KEY }}
+        run: |
+          eval $(ssh-agent -s)
+          echo "$SSH_KEY" | tr -d '\r' | ssh-add -
+
+          cd dest_repo
+
+          # Ensure no README exists before staging
+          find . -maxdepth 1 -iname 'readme.md' -exec rm -f {} +
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add -A
+          if git diff --staged --quiet; then
+            echo "No file changes detected. Skipping commit."
+          else
+            git commit -m "Automated file sync"
+            git push origin HEAD
+          fi
