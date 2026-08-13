@@ -73,12 +73,12 @@ self.basePath = self.basePath || basePath;
 
 self.$scramjet = {
     files: {
-        wasm: "https://cdn.jsdelivr.net/gh/mikej30002/oxygen@main/JS/scramjet.wasm.wasm",
-        sync: "https://cdn.jsdelivr.net/gh/mikej30002/oxygen@main/JS/scramjet.sync.js",
+        wasm: "https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.wasm.wasm",
+        sync: "https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.sync.js",
     }
 };
 
-importScripts("https://cdn.jsdelivr.net/gh/mikej30002/oxygen@main/JS/scramjet.all.js");
+importScripts("https://cdn.jsdelivr.net/gh/Destroyed12121/Staticsj@main/JS/scramjet.all.js");
 importScripts("https://cdn.jsdelivr.net/npm/@mercuryworkshop/bare-mux/dist/index.js");
 
 const { ScramjetServiceWorker } = $scramjetLoadWorker();
