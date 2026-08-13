@@ -2,7 +2,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 :root {
-    /* Core colors (can be overridden by user settings) */
+    /* Core colors (can be overridden by user settings */
     --bg: #0a0a0a;
     --surface: #0f0f0f;
     --surface-hover: #1a1a1a;
